@@ -8,15 +8,26 @@ const findAll = async () => {
   return foundPokemons;
 };
 
-router.get("/", (req, res) => {
-  const findAll = async () => {
-    const foundPokemons = await NewPokemon.find();
-    return foundPokemons;
-  };
+/*
+router.get("/", async (req, res) => {
+  const collection = await findAll();
+  res.send(collection);
+});
+*/
+const filterByName = async name => {
+  const regex = new RegExp(name, "gi");
+  const filteredPokemons = await NewPokemon.find({ name: regex });
+  return filteredPokemons;
+};
 
-  findAll().then(value => res.status(200).send(value));
-
-  //res.status(200).send(data);
+router.get("/", async (req, res) => {
+  if (req.query.name) {
+    const collection = await filterByName(req.query.name);
+    res.send(collection);
+  } else {
+    const collection = await findAll();
+    res.send(collection);
+  }
 });
 
 module.exports = router;

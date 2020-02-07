@@ -19,6 +19,6 @@ app.get("/", (req, res) => {
 
 const pokemonRouter = require("./routes/pokemon.route");
 
-app.use("/pokemon", pokemonRouter);
+app.use("/pokemons", pokemonRouter);
 
 module.exports = app;
