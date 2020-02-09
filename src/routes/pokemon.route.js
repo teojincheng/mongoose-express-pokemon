@@ -8,16 +8,19 @@ const findAll = async () => {
   return foundPokemons;
 };
 
-/*
-router.get("/", async (req, res) => {
-  const collection = await findAll();
-  res.send(collection);
-});
-*/
 const filterByName = async name => {
   const regex = new RegExp(name, "gi");
   const filteredPokemons = await NewPokemon.find({ name: regex });
   return filteredPokemons;
+};
+
+const createPokemon = async pokemon => {
+  try {
+    const doc = NewPokemon(pokemon);
+    await doc.save();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 router.get("/", async (req, res) => {
@@ -28,6 +31,16 @@ router.get("/", async (req, res) => {
     const collection = await findAll();
     res.send(collection);
   }
+});
+
+router.post("/", async (req, res) => {
+  const pokemon = {};
+  pokemon.id = req.body.id;
+  if (req.body.name) {
+    pokemon.name = req.body.name;
+  }
+  await createPokemon(pokemon);
+  res.send(pokemon);
 });
 
 module.exports = router;

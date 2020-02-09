@@ -71,6 +71,7 @@ describe("pokemons", () => {
     const { body: actualPokemons } = await request(app)
       .get("/pokemons")
       .expect(200);
+    actualPokemons.sort((a, b) => a.id > b.id);
     expect(actualPokemons).toMatchObject(expectedPokemonData);
   });
 });
