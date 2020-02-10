@@ -74,4 +74,71 @@ describe("pokemons", () => {
     actualPokemons.sort((a, b) => a.id > b.id);
     expect(actualPokemons).toMatchObject(expectedPokemonData);
   });
+
+  it("GET /pokemons?name should respond with pokemon with that name", async () => {
+    const expectedPokemonData = [
+      {
+        id: 1,
+        name: "Pikachu",
+        japaneseName: "ピカチュウ",
+        baseHP: 35,
+        category: "Mouse Pokemon"
+      }
+    ];
+
+    const { body: actualPokemons } = await request(app)
+      .get("/pokemons?name=pi")
+      .expect(200);
+    actualPokemons.sort((a, b) => a.id > b.id);
+    expect(actualPokemons).toMatchObject(expectedPokemonData);
+  });
+
+  it("POST /pokemons should add a new pokemon and respond with new pokemon", async () => {
+    const expectedPokemonData = [
+      {
+        id: 9,
+        name: "Raichu",
+        japaneseName: "ピカチュウ",
+        baseHP: 50,
+        category: "Mouse Pokemon"
+      }
+    ];
+
+    const pokemon = {
+      id: 9,
+      name: "Raichu",
+      japaneseName: "ピカチュウ",
+      baseHP: 50,
+      category: "Mouse Pokemon"
+    };
+    const { body: actualPokemons } = await request(app)
+      .post("/pokemons")
+      .expect(201)
+      .send(pokemon);
+
+    expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
+  });
+
+  it("GET /pokemons/:id should return one specific pokemon", async () => {
+    const expectedPokemonData = [
+      {
+        id: 1,
+        name: "Pikachu",
+        japaneseName: "ピカチュウ",
+        baseHP: 35,
+        category: "Mouse Pokemon"
+      },
+      {
+        id: 2,
+        name: "Squirtle",
+        japaneseName: "ゼニガメ",
+        baseHP: 44,
+        category: "Tiny Turtle Pokemon"
+      }
+    ];
+    const { body: actualPokemons } = await request(app)
+      .get("/pokemons/1")
+      .expect(200);
+    expect(actualPokemons[0]).toMatchObject(expectedPokemonData[0]);
+  });
 });

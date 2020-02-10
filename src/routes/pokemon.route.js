@@ -71,7 +71,7 @@ router.post("/", async (req, res) => {
   }
   */
   await createPokemon(req.body);
-  res.send(req.body);
+  res.status(201).send(req.body);
 });
 
 router.put("/:id", async (req, res) => {
