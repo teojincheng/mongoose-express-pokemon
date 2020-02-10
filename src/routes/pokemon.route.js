@@ -28,6 +28,11 @@ const findPokemon = async id => {
   return result;
 };
 
+const findAndReplace = async (id, pokemon) => {
+  const result = await NewPokemon.findOneAndReplace({ id: id }, pokemon);
+  return pokemon;
+};
+
 router.get("/", async (req, res) => {
   if (req.query.name) {
     const collection = await filterByName(req.query.name);
@@ -51,6 +56,11 @@ router.post("/", async (req, res) => {
   }
   await createPokemon(pokemon);
   res.send(pokemon);
+});
+
+router.put("/:id", async (req, res) => {
+  const newPokemon = await findAndReplace(parseInt(req.params.id), req.body);
+  res.send(newokemon);
 });
 
 module.exports = router;
