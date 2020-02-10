@@ -29,8 +29,22 @@ const findPokemon = async id => {
 };
 
 const findAndReplace = async (id, pokemon) => {
-  const result = await NewPokemon.findOneAndReplace({ id: id }, pokemon);
-  return pokemon;
+  const result = await NewPokemon.findOneAndReplace({ id: id }, pokemon, {
+    new: true
+  });
+  return result;
+};
+
+const updatePokemon = async (id, pokemon) => {
+  const result = await NewPokemon.findOneAndUpdate({ id: id }, pokemon, {
+    new: true
+  });
+  return result;
+};
+
+const deletePokemon = async id => {
+  const result = await NewPokemon.findOneAndRemove({ id: id });
+  return result;
 };
 
 router.get("/", async (req, res) => {
@@ -60,7 +74,17 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const newPokemon = await findAndReplace(parseInt(req.params.id), req.body);
-  res.send(newokemon);
+  res.send(newPokemon);
+});
+
+router.patch("/:id", async (req, res) => {
+  const newPokemon = await updatePokemon(parseInt(req.params.id), req.body);
+  res.send(newPokemon);
+});
+
+router.delete("/:id", async (req, res) => {
+  const result = await deletePokemon(parseInt(req.params.id));
+  res.send(result);
 });
 
 module.exports = router;
