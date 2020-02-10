@@ -21,4 +21,12 @@ const pokemonRouter = require("./routes/pokemon.route");
 
 app.use("/pokemons", pokemonRouter);
 
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  res.status(err.statusCode);
+  res.send(`Error : ${err}<br>
+  Status code : ${err.statusCode} <br>
+    Error stack: ${err.stack}`);
+});
+
 module.exports = app;
