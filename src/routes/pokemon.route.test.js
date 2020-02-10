@@ -136,8 +136,9 @@ describe("pokemons", () => {
         category: "Tiny Turtle Pokemon"
       }
     ];
+    const pokemonId = 1;
     const { body: actualPokemons } = await request(app)
-      .get("/pokemons/1")
+      .get(`/pokemons/${pokemonId}`)
       .expect(200);
     expect(actualPokemons[0]).toMatchObject(expectedPokemonData[0]);
   });
@@ -161,8 +162,9 @@ describe("pokemons", () => {
       }
     ];
 
+    const pokemonId = 1;
     const { body: actualPokemons } = await request(app)
-      .put("/pokemons/1")
+      .put(`/pokemons/${pokemonId}`)
       .expect(200)
       .send(pokemon);
 
@@ -193,8 +195,9 @@ describe("pokemons", () => {
       }
     ];
 
+    const pokemonId = 1;
     const { body: actualPokemons } = await request(app)
-      .patch("/pokemons/1")
+      .patch(`/pokemons/${pokemonId}`)
       .expect(200)
       .send(pokemon);
 
@@ -219,8 +222,9 @@ describe("pokemons", () => {
       }
     ];
 
+    const pokemonId = 1;
     const { body: actualPokemons } = await request(app)
-      .delete("/pokemons/1")
+      .delete(`/pokemons/${pokemonId}`)
       .expect(200);
 
     expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
