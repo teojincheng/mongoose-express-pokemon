@@ -63,13 +63,15 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  /*
   const pokemon = {};
   pokemon.id = req.body.id;
   if (req.body.name) {
     pokemon.name = req.body.name;
   }
-  await createPokemon(pokemon);
-  res.send(pokemon);
+  */
+  await createPokemon(req.body);
+  res.send(req.body);
 });
 
 router.put("/:id", async (req, res) => {
