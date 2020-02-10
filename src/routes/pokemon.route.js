@@ -15,12 +15,8 @@ const filterByName = async name => {
 };
 
 const createPokemon = async pokemon => {
-  try {
-    const doc = NewPokemon(pokemon);
-    await doc.save();
-  } catch (err) {
-    console.log(err);
-  }
+  const doc = NewPokemon(pokemon);
+  await doc.save();
 };
 
 const findPokemon = async id => {
@@ -28,15 +24,15 @@ const findPokemon = async id => {
   return result;
 };
 
-const findAndReplace = async (id, pokemon) => {
-  const result = await NewPokemon.findOneAndReplace({ id: id }, pokemon, {
+const replacePokemon = async (id, pokemon) => {
+  const result = await NewPokemon.findOneAndReplace({ id }, pokemon, {
     new: true
   });
   return result;
 };
 
 const updatePokemon = async (id, pokemon) => {
-  const result = await NewPokemon.findOneAndUpdate({ id: id }, pokemon, {
+  const result = await NewPokemon.findOneAndUpdate({ id }, pokemon, {
     new: true
   });
   return result;
@@ -62,7 +58,7 @@ router.get("/:id", async (req, res) => {
   res.send(pokemon);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   /*
   const pokemon = {};
   pokemon.id = req.body.id;
@@ -70,12 +66,20 @@ router.post("/", async (req, res) => {
     pokemon.name = req.body.name;
   }
   */
-  await createPokemon(req.body);
+
+  try {
+    await createPokemon(req.body);
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      err.statusCode = 400;
+    }
+    next(err);
+  }
   res.status(201).send(req.body);
 });
 
 router.put("/:id", async (req, res) => {
-  const newPokemon = await findAndReplace(parseInt(req.params.id), req.body);
+  const newPokemon = await replacePokemon(parseInt(req.params.id), req.body);
   res.send(newPokemon);
 });
 

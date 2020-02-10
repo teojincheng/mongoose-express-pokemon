@@ -144,7 +144,7 @@ describe("pokemons", () => {
   });
 
   it("PUT /pokemons/:id should replace pokemon and return new pokemon", async () => {
-    const pokemon = {
+    const expectedPokemon = {
       id: 1,
       name: "Gastly",
       japaneseName: "ピカチュウ",
@@ -152,29 +152,17 @@ describe("pokemons", () => {
       category: "Ghost Pokemon"
     };
 
-    const expectedPokemonData = [
-      {
-        id: 1,
-        name: "Gastly",
-        japaneseName: "ピカチュウ",
-        baseHP: 70,
-        category: "Ghost Pokemon"
-      }
-    ];
-
     const pokemonId = 1;
     const { body: actualPokemons } = await request(app)
       .put(`/pokemons/${pokemonId}`)
       .expect(200)
-      .send(pokemon);
+      .send(expectedPokemon);
 
-    expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
+    expect(actualPokemons).toMatchObject(expectedPokemon);
   });
 
   it("PATCH /pokemons/:id should update some properties of the pokemon and respond with new pokemon", async () => {
     const pokemon = {
-      id: 1,
-      name: "Pikachu",
       baseHP: 20
     };
 
@@ -195,9 +183,8 @@ describe("pokemons", () => {
       }
     ];
 
-    const pokemonId = 1;
     const { body: actualPokemons } = await request(app)
-      .patch(`/pokemons/${pokemonId}`)
+      .patch(`/pokemons/${expectedPokemonData[0].id}`)
       .expect(200)
       .send(pokemon);
 
@@ -229,4 +216,10 @@ describe("pokemons", () => {
 
     expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
   });
+
+  /*
+  it("POST /pokemons throw error when not sending a proper pokemon object ", async() =>{
+    const badData
+  })
+  */
 });
