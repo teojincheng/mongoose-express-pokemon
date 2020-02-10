@@ -23,6 +23,11 @@ const createPokemon = async pokemon => {
   }
 };
 
+const findPokemon = async id => {
+  const result = await NewPokemon.find({ id: id });
+  return result;
+};
+
 router.get("/", async (req, res) => {
   if (req.query.name) {
     const collection = await filterByName(req.query.name);
@@ -31,6 +36,11 @@ router.get("/", async (req, res) => {
     const collection = await findAll();
     res.send(collection);
   }
+});
+
+router.get("/:id", async (req, res) => {
+  const pokemon = await findPokemon(parseInt(req.params.id));
+  res.send(pokemon);
 });
 
 router.post("/", async (req, res) => {
