@@ -141,4 +141,88 @@ describe("pokemons", () => {
       .expect(200);
     expect(actualPokemons[0]).toMatchObject(expectedPokemonData[0]);
   });
+
+  it("PUT /pokemons/:id should replace pokemon and return new pokemon", async () => {
+    const pokemon = {
+      id: 1,
+      name: "Gastly",
+      japaneseName: "ピカチュウ",
+      baseHP: 70,
+      category: "Ghost Pokemon"
+    };
+
+    const expectedPokemonData = [
+      {
+        id: 1,
+        name: "Gastly",
+        japaneseName: "ピカチュウ",
+        baseHP: 70,
+        category: "Ghost Pokemon"
+      }
+    ];
+
+    const { body: actualPokemons } = await request(app)
+      .put("/pokemons/1")
+      .expect(200)
+      .send(pokemon);
+
+    expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
+  });
+
+  it("PATCH /pokemons/:id should update some properties of the pokemon and respond with new pokemon", async () => {
+    const pokemon = {
+      id: 1,
+      name: "Pikachu",
+      baseHP: 20
+    };
+
+    const expectedPokemonData = [
+      {
+        id: 1,
+        name: "Pikachu",
+        japaneseName: "ピカチュウ",
+        baseHP: 20,
+        category: "Mouse Pokemon"
+      },
+      {
+        id: 2,
+        name: "Squirtle",
+        japaneseName: "ゼニガメ",
+        baseHP: 44,
+        category: "Tiny Turtle Pokemon"
+      }
+    ];
+
+    const { body: actualPokemons } = await request(app)
+      .patch("/pokemons/1")
+      .expect(200)
+      .send(pokemon);
+
+    expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
+  });
+
+  it("DELETE /pokemons/id should remove the pokemon and return the deleted pokemon", async () => {
+    const expectedPokemonData = [
+      {
+        id: 1,
+        name: "Pikachu",
+        japaneseName: "ピカチュウ",
+        baseHP: 35,
+        category: "Mouse Pokemon"
+      },
+      {
+        id: 2,
+        name: "Squirtle",
+        japaneseName: "ゼニガメ",
+        baseHP: 44,
+        category: "Tiny Turtle Pokemon"
+      }
+    ];
+
+    const { body: actualPokemons } = await request(app)
+      .delete("/pokemons/1")
+      .expect(200);
+
+    expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
+  });
 });
