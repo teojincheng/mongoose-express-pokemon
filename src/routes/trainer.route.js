@@ -55,6 +55,10 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+router.post("/logout", (req, res) => {
+  res.clearCookie("token").send("You are now logged out!");
+});
+
 router.get("/:username", protectRoute, async (req, res, next) => {
   try {
     const username = req.params.username;

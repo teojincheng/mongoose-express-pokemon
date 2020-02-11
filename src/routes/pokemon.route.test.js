@@ -3,6 +3,8 @@ const app = require("../../src/app");
 const Pokemon = require("../../src/models/new-pokemon.model");
 const mongoose = require("mongoose");
 const { MongoMemoryServer } = require("mongodb-memory-server");
+const jwt = require("jsonwebtoken");
+jest.mock("jsonwebtoken");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
@@ -47,6 +49,7 @@ describe("pokemons", () => {
   });
 
   afterEach(async () => {
+    jest.resetAllMocks();
     await Pokemon.deleteMany();
   });
 
@@ -111,8 +114,10 @@ describe("pokemons", () => {
       baseHP: 50,
       category: "Mouse Pokemon"
     };
+    jwt.verify.mockReturnValueOnce({});
     const { body: actualPokemons } = await request(app)
       .post("/pokemons")
+      .set("cookie", "token=valid-token")
       .expect(201)
       .send(pokemon);
 
@@ -216,7 +221,7 @@ describe("pokemons", () => {
 
     expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
   });
-/*
+  /*
   it("POST /pokemons throw error when not sending a proper pokemon object ", async () => {
     const badData = { baseHP: 90 };
     const { body: actualPokemons } = await request(app)

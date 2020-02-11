@@ -5,6 +5,14 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cookieParser());
 
+const corsOptions = {
+  credentials: true,
+  allowedHeaders: "content-type",
+  origin: "http://localhost:3001"
+};
+
+app.use(cors(corsOptions));
+
 const listOfRoutes = {
   "0": "GET    /",
   "1": "GET   /pokemons",
@@ -25,14 +33,6 @@ const trainerRouter = require("./routes/trainer.route");
 
 app.use("/pokemons", pokemonRouter);
 app.use("/trainers", trainerRouter);
-
-const corsOptions = {
-  credentials: true,
-  allowedHeaders: "content-type",
-  origin: "http://localhost:3001"
-};
-
-app.use(cors(corsOptions));
 
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;

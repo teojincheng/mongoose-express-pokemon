@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const NewPokemon = require("../models/new-pokemon.model");
+const { protectRoute } = require("../middlewares/auth");
 
 const findAll = async () => {
   const foundPokemons = await NewPokemon.find();
@@ -15,6 +16,7 @@ const filterByName = async name => {
 };
 
 const createPokemon = async pokemon => {
+  await NewPokemon.init();
   const doc = NewPokemon(pokemon);
   await doc.save();
 };
@@ -58,7 +60,7 @@ router.get("/:id", async (req, res) => {
   res.send(pokemon);
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", protectRoute, async (req, res, next) => {
   try {
     await createPokemon(req.body);
   } catch (err) {
