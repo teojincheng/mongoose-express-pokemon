@@ -59,14 +59,6 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res, next) => {
-  /*
-  const pokemon = {};
-  pokemon.id = req.body.id;
-  if (req.body.name) {
-    pokemon.name = req.body.name;
-  }
-  */
-
   try {
     await createPokemon(req.body);
   } catch (err) {
