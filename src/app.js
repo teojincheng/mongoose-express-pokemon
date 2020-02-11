@@ -35,8 +35,10 @@ app.use("/pokemons", pokemonRouter);
 app.use("/trainers", trainerRouter);
 
 app.use((err, req, res, next) => {
+  console.log("inside app.use err handle");
   err.statusCode = err.statusCode || 500;
   res.status(err.statusCode);
+  console.log(err.statusCode);
   res.send(`Error : ${err}<br>
   Status code : ${err.statusCode} <br>
     Error stack: ${err.stack}`);

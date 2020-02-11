@@ -7,23 +7,23 @@ const bcrypt = require("bcryptjs");
 const Trainer = require("../models/trainer.model");
 const { protectRoute } = require("../middlewares/auth");
 
+router.post("/", async (req, res, next) => {
+  try {
+    const trainer = new Trainer(req.body);
+    await Trainer.init();
+    const newTrainer = await trainer.save();
+    res.status(201).send(newTrainer);
+  } catch (err) {
+    next(err);
+  }
+});
+
 const createJWTToken = username => {
   const payload = { name: username };
   //console.log("secret key is" + process.env.JWT_SECRET_KEY);
   const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
   return token;
 };
-
-router.post("/", async (req, res, next) => {
-  try {
-    const trainer = new Trainer(req.body);
-    await Trainer.init();
-    const newTrainer = await trainer.save();
-    res.send(newTrainer);
-  } catch (err) {
-    next(err);
-  }
-});
 
 router.post("/login", async (req, res, next) => {
   try {
@@ -60,15 +60,21 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/:username", protectRoute, async (req, res, next) => {
+  const INCORRECT_USER_ERR_MG = "incorrect trainer";
   try {
     const username = req.params.username;
     if (req.user.name !== username) {
-      throw new Error("Incorrect user");
+      throw new Error(INCORRECT_USER_ERR_MG);
     }
-    const regex = new RegExp(username, "gi");
-    const trainers = await Trainer.find({ username: regex });
+    const trainers = await Trainer.find({ username });
     res.send(trainers);
   } catch (err) {
+    console.log("chase");
+    console.log(err.message);
+    if (err.message === INCORRECT_USER_ERR_MG) {
+      err.statusCode = 403;
+      console.log("i am here");
+    }
     next(err);
   }
 });
