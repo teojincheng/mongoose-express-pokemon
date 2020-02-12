@@ -7,7 +7,7 @@ const mongoOptions = {
 };
 
 const dbName = "newpokedex";
-const dbUrl = global.__MONGO_URI__ || "mongodb://localhost:27017/" + dbName;
+const dbUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/" + dbName;
 mongoose.connect(dbUrl, mongoOptions);
 const db = mongoose.connection;
 
