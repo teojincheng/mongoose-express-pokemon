@@ -69,11 +69,9 @@ router.get("/:username", protectRoute, async (req, res, next) => {
     const trainers = await Trainer.find({ username });
     res.send(trainers);
   } catch (err) {
-    console.log("chase");
     console.log(err.message);
     if (err.message === INCORRECT_USER_ERR_MG) {
       err.statusCode = 403;
-      console.log("i am here");
     }
     next(err);
   }
