@@ -46,7 +46,7 @@ router.post("/login", async (req, res, next) => {
       httpOnly: true
     });
 
-    res.send("You are now logged in!");
+    res.status(200).send("You are now logged in!");
   } catch (err) {
     if (err.message === "Login failed") {
       err.statusCode = 400;
@@ -69,8 +69,8 @@ router.get("/:username", protectRoute, async (req, res, next) => {
     const trainers = await Trainer.find({ username });
     res.send(trainers);
   } catch (err) {
-    console.log(err.message);
     if (err.message === INCORRECT_USER_ERR_MG) {
+      console.log("ERRRRRRRRORR");
       err.statusCode = 403;
     }
     next(err);

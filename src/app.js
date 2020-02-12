@@ -37,9 +37,16 @@ app.use("/trainers", trainerRouter);
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   res.status(err.statusCode);
+  if (err.statusCode) {
+    res.send({ error: err.message });
+  } else {
+    res.send({ error: "internal server error" });
+  }
+  /*
   res.send(`Error : ${err}<br>
   Status code : ${err.statusCode} <br>
     Error stack: ${err.stack}`);
+    */
 });
 
 module.exports = app;
