@@ -42,11 +42,6 @@ app.use((err, req, res, next) => {
   } else {
     res.send({ error: "internal server error" });
   }
-  /*
-  res.send(`Error : ${err}<br>
-  Status code : ${err.statusCode} <br>
-    Error stack: ${err.stack}`);
-    */
 });
 
 module.exports = app;

@@ -73,6 +73,7 @@ describe("trainers", () => {
       expect(actualTrainer[0]).toMatchObject(expectedTrainer);
     });
 
+    /*
     it("GET should respond with incorrect trainer message when login as incorrect trainer", async () => {
       const wrongTrainer = {
         username: "ash"
@@ -85,10 +86,11 @@ describe("trainers", () => {
       expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(error).toEqual({ error: "incorrect trainer" });
     });
+    */
   });
 
-  /*
   describe("/trainers/login", () => {
+    /*
     it("should login when password is correct", async () => {
       const correctTrainer = {
         username: "gary",
@@ -102,17 +104,32 @@ describe("trainers", () => {
 
       expect(message).toEqual("You are now logged in!");
     });
-
+    */
+    /*
     it("GET should deny access when no token is provided ", async () => {
       const { body: error } = await request(app)
         .get(`/trainers/gary`)
         .expect(401);
       expect(jwt.verify).not.toHaveBeenCalled();
-      //expect(error).toEqual({ error: "You are not authorized" });
+      expect(error).toEqual({ error: "You are not authorized" });
     });
     */
+    /*
+    it("GET should deny access when token is invalid", async () => {
+      jwt.verify.mockImplementationOnce(() => {
+        throw new Error();
+      });
 
-  /*
+      const { body: error } = await request(app)
+        .get("trainers/gary")
+        .set("Cookie", "token=wrong-token")
+        .expect(401);
+    });
+    */
+  });
+});
+
+/*
 
     it("GET should deny access when token is invalid", async () => {
       jwt.verify.mockImplementationOnce(() => {
@@ -125,4 +142,3 @@ describe("trainers", () => {
         .expect(401);
     });
     */
-});

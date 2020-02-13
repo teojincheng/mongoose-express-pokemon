@@ -70,7 +70,6 @@ router.get("/:username", protectRoute, async (req, res, next) => {
     res.send(trainers);
   } catch (err) {
     if (err.message === INCORRECT_USER_ERR_MG) {
-      console.log("ERRRRRRRRORR");
       err.statusCode = 403;
     }
     next(err);
