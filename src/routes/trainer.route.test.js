@@ -73,7 +73,6 @@ describe("trainers", () => {
       expect(actualTrainer[0]).toMatchObject(expectedTrainer);
     });
 
-    /*
     it("GET should respond with incorrect trainer message when login as incorrect trainer", async () => {
       const wrongTrainer = {
         username: "ash"
@@ -86,7 +85,6 @@ describe("trainers", () => {
       expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(error).toEqual({ error: "incorrect trainer" });
     });
-    */
   });
 
   describe("/trainers/login", () => {
