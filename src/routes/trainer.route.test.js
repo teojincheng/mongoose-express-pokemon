@@ -102,7 +102,6 @@ describe("trainers", () => {
       expect(message).toEqual("You are now logged in!");
     });
 
-    /*
     it("GET should deny access when no token is provided ", async () => {
       const { body: error } = await request(app)
         .get(`/trainers/gary`)
@@ -110,7 +109,7 @@ describe("trainers", () => {
       expect(jwt.verify).not.toHaveBeenCalled();
       expect(error).toEqual({ error: "You are not authorized" });
     });
-    */
+
     /*
     it("GET should deny access when token is invalid", async () => {
       jwt.verify.mockImplementationOnce(() => {
