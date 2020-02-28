@@ -88,7 +88,6 @@ describe("trainers", () => {
   });
 
   describe("/trainers/login", () => {
-    /*
     it("should login when password is correct", async () => {
       const correctTrainer = {
         username: "gary",
@@ -102,7 +101,7 @@ describe("trainers", () => {
 
       expect(message).toEqual("You are now logged in!");
     });
-    */
+
     /*
     it("GET should deny access when no token is provided ", async () => {
       const { body: error } = await request(app)

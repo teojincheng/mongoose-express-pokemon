@@ -30,6 +30,8 @@ router.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
     const trainer = await Trainer.findOne({ username });
     const result = await bcrypt.compare(password, trainer.password);
+    console.log("check result");
+    console.log(result);
 
     if (!result) {
       throw new Error("Login failed");
@@ -40,13 +42,13 @@ router.post("/login", async (req, res, next) => {
     const oneDay = 24 * 60 * 60 * 1000;
     const oneWeek = oneDay * 7;
     const expiryDate = new Date(Date.now() + oneWeek);
-
+    console.log("i am at line 45");
     res.cookie("token", token, {
       expires: expiryDate,
       httpOnly: true
     });
 
-    res.status(200).send("You are now logged in!");
+    res.status(200).json("You are now logged in!");
   } catch (err) {
     if (err.message === "Login failed") {
       err.statusCode = 400;
@@ -56,7 +58,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("token").send("You are now logged out!");
+  res.clearCookie("token").json("You are now logged out!");
 });
 
 router.get("/:username", protectRoute, async (req, res, next) => {
