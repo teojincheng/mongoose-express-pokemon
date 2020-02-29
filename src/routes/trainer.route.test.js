@@ -110,29 +110,15 @@ describe("trainers", () => {
       expect(error).toEqual({ error: "You are not authorized" });
     });
 
-    it.skip("GET should deny access when token is invalid", async () => {
-      jwt.verify.mockImplementationOnce(() => {
-        throw new Error("invalid token");
-      });
-
-      const { body: error } = await request(app)
-        .get("trainers/apple")
-        .set("Cookie", "token=wrong-token")
-        .expect(401);
-    });
-  });
-});
-
-/*
-
     it("GET should deny access when token is invalid", async () => {
       jwt.verify.mockImplementationOnce(() => {
         throw new Error();
       });
 
       const { body: error } = await request(app)
-        .get(`trainers/apple`)
+        .get("/trainers/gary")
         .set("Cookie", "token=wrong-token")
         .expect(401);
     });
-    */
+  });
+});
