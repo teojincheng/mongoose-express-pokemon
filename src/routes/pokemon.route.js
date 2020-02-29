@@ -63,13 +63,13 @@ router.get("/:id", async (req, res) => {
 router.post("/", protectRoute, async (req, res, next) => {
   try {
     await createPokemon(req.body);
+    res.status(201).send(req.body);
   } catch (err) {
     if (err.name === "ValidationError") {
       err.statusCode = 400;
     }
     next(err);
   }
-  res.status(201).send(req.body);
 });
 
 router.put("/:id", async (req, res) => {

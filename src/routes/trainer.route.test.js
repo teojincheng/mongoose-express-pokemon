@@ -110,18 +110,16 @@ describe("trainers", () => {
       expect(error).toEqual({ error: "You are not authorized" });
     });
 
-    /*
-    it("GET should deny access when token is invalid", async () => {
+    it.skip("GET should deny access when token is invalid", async () => {
       jwt.verify.mockImplementationOnce(() => {
-        throw new Error();
+        throw new Error("invalid token");
       });
 
       const { body: error } = await request(app)
-        .get("trainers/gary")
+        .get("trainers/apple")
         .set("Cookie", "token=wrong-token")
         .expect(401);
     });
-    */
   });
 });
 

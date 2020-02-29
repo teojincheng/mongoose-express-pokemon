@@ -221,12 +221,13 @@ describe("pokemons", () => {
 
     expect(actualPokemons).toMatchObject(expectedPokemonData[0]);
   });
-  /*
+
   it("POST /pokemons throw error when not sending a proper pokemon object ", async () => {
     const badData = { baseHP: 90 };
+    jwt.verify.mockReturnValueOnce({});
     const { body: actualPokemons } = await request(app)
       .post("/pokemons")
+      .set("cookie", "token=valid-token")
       .expect(400);
   });
-  */
 });

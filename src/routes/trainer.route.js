@@ -30,8 +30,6 @@ router.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
     const trainer = await Trainer.findOne({ username });
     const result = await bcrypt.compare(password, trainer.password);
-    console.log("check result");
-    console.log(result);
 
     if (!result) {
       throw new Error("Login failed");
@@ -42,7 +40,7 @@ router.post("/login", async (req, res, next) => {
     const oneDay = 24 * 60 * 60 * 1000;
     const oneWeek = oneDay * 7;
     const expiryDate = new Date(Date.now() + oneWeek);
-    console.log("i am at line 45");
+
     res.cookie("token", token, {
       expires: expiryDate,
       httpOnly: true

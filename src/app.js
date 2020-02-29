@@ -35,6 +35,7 @@ app.use("/pokemons", pokemonRouter);
 app.use("/trainers", trainerRouter);
 
 app.use((err, req, res, next) => {
+  console.log("inside app js error handler");
   err.statusCode = err.statusCode || 500;
   res.status(err.statusCode);
   if (err.statusCode) {
